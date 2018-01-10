@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/jmoiron/sqlx/reflectx"
+	"github.com/reverbdotcom/sqlx/reflectx"
 )
 
 // Bindvar types supported by Rebind, BindMap and BindStruct.
