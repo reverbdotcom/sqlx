@@ -23,7 +23,7 @@ const (
 // BindType returns the bindtype for a given database given a drivername.
 func BindType(driverName string) int {
 	switch driverName {
-	case "postgres", "pgx", "pq-timeouts", "cloudsqlpostgres", "txdb": // Reverb: Adds txdb support for bindvars -- if you're using something other than postgres, you'll want to change this.
+	case "postgres", "pgx", "pq-timeouts", "cloudsqlpostgres", "ql", "txdb": // Reverb: Adds txdb support for bindvars -- if you're using something other than postgres, you'll want to change this.
 		return DOLLAR
 	case "mysql":
 		return QUESTION
