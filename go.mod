@@ -9,3 +9,5 @@ require (
 	github.com/reverbdotcom/sqlx v0.0.0-20180110223232-8f6781503779
 	google.golang.org/appengine v1.6.7 // indirect
 )
+
+go 1.13
