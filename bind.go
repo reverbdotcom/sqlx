@@ -7,6 +7,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/reverbdotcom/sqlx/reflectx"
 )
@@ -20,21 +21,36 @@ const (
 	AT
 )
 
+var defaultBinds = map[int][]string{
+	DOLLAR:   []string{"postgres", "pgx", "pq-timeouts", "cloudsqlpostgres", "ql", "txdb"},
+	QUESTION: []string{"mysql", "sqlite3"},
+	NAMED:    []string{"oci8", "ora", "goracle"},
+	AT:       []string{"sqlserver"},
+}
+
+var binds sync.Map
+
+func init() {
+	for bind, drivers := range defaultBinds {
+		for _, driver := range drivers {
+			BindDriver(driver, bind)
+		}
+	}
+
+}
+
 // BindType returns the bindtype for a given database given a drivername.
 func BindType(driverName string) int {
-	switch driverName {
-	case "postgres", "pgx", "pq-timeouts", "cloudsqlpostgres", "ql", "txdb": // Reverb: Adds txdb support for bindvars -- if you're using something other than postgres, you'll want to change this.
-		return DOLLAR
-	case "mysql":
-		return QUESTION
-	case "sqlite3":
-		return QUESTION
-	case "oci8", "ora", "goracle", "godror":
-		return NAMED
-	case "sqlserver":
-		return AT
+	itype, ok := binds.Load(driverName)
+	if !ok {
+		return UNKNOWN
 	}
-	return UNKNOWN
+	return itype.(int)
+}
+
+// BindDriver sets the BindType for driverName to bindType.
+func BindDriver(driverName string, bindType int) {
+	binds.Store(driverName, bindType)
 }
 
 // FIXME: this should be able to be tolerant of escaped ?'s in queries without
