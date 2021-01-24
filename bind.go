@@ -22,7 +22,7 @@ const (
 )
 
 var defaultBinds = map[int][]string{
-	DOLLAR:   []string{"postgres", "pgx", "pq-timeouts", "cloudsqlpostgres", "ql", "nrpostgres", "txdb"},
+	DOLLAR:   []string{"postgres", "pgx", "pq-timeouts", "cloudsqlpostgres", "ql", "nrpostgres", "txdb", "cockroach"},
 	QUESTION: []string{"mysql", "sqlite3", "nrmysql", "nrsqlite3"},
 	NAMED:    []string{"oci8", "ora", "goracle"},
 	AT:       []string{"sqlserver"},
